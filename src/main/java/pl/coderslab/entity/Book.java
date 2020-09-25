@@ -1,7 +1,5 @@
 package pl.coderslab.entity;
 
-import javax.persistence.Entity;
-
 public class Book {
     private Long id;
     private String isbn;
