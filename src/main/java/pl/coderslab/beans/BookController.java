@@ -1,12 +1,15 @@
 package pl.coderslab.beans;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.config.AppConfig;
 import pl.coderslab.dao.BookService;
 import pl.coderslab.entity.Book;
 
 import java.util.List;
-
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/books")
@@ -24,8 +27,8 @@ public class BookController {
         return bookService.getAllBooks();
     }
     @RequestMapping("/{id}")
-    public Book getBookById(@PathVariable  long id){
-        return (Book) bookService.getBookByid(id);
+    public Book getBookById(@PathVariable  long id) {
+        return bookService.get(id);
     }
     @PostMapping("")
     public void addNewBook( @RequestBody Book book){

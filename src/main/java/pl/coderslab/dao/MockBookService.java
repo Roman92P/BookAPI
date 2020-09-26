@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import pl.coderslab.entity.Book;
+import pl.coderslab.exceptions.BookNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,6 @@ public class MockBookService implements BookService {
     private List<Book> books;
 
     private static Long nextId = 4L;
-
 
     public MockBookService() {
 
@@ -39,9 +39,14 @@ public class MockBookService implements BookService {
     }
 
     @Override
-    public Optional<Book> getBookByid(long id) {
-        return books.stream().filter(s -> s.getId().equals(id)).findFirst();
+    public Book get(Long id) {
+        Optional<Book> optionalBook = books.stream().filter(s -> s.getId().equals(id)).findFirst();
+        if (!optionalBook.isPresent()) {
+            throw new BookNotFoundException();
+        }
+        return optionalBook.get();
     }
+
 
     @Override
     public void addBook(Book book) {
@@ -52,21 +57,28 @@ public class MockBookService implements BookService {
     @Override
     public void updateBooks(Book book) {
         Long id = book.getId();
-        Optional<Book> bookById = getBookByid(id);
-        if (bookById.isPresent()) {
-            Book book1 = bookById.get();
+        Optional<Book> first = books.stream().filter(s -> s.getId().equals(id)).findFirst();
+        Book book1 = null;
+        if (first.isPresent()) {
+            book1 = first.get();
             book1.setIsbn(book.getIsbn());
             book1.setTitle(book.getTitle());
             book1.setAuthor(book.getAuthor());
             book1.setPublisher(book.getPublisher());
             book1.setType(book.getType());
+        } else {
+            throw new BookNotFoundException();
         }
     }
 
     @Override
     public void deleteBook(long id) {
         Optional<Book> firstBook = books.stream().filter(s -> s.getId().equals(id)).findFirst();
-        firstBook.ifPresent(book -> books.remove(book));
+        if(firstBook.isPresent()){
+            books.remove(firstBook.get());
+        }else {
+            throw new BookNotFoundException();
+        }
     }
 
 }
