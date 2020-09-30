@@ -1,6 +1,8 @@
 package pl.coderslab.entity;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
     private Long id;
     private String isbn;
     private String title;

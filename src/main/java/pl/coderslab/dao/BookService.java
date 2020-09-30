@@ -2,6 +2,7 @@ package pl.coderslab.dao;
 
 import pl.coderslab.entity.Book;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 

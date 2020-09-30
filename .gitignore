@@ -27,3 +27,6 @@ pom.xml
 src/main/resources
 .idea
 .gitignore
+src/main/java/pl/coderslab/dao/FileOutputStreamEx.java
+library.txt
+

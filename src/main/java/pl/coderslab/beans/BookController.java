@@ -1,6 +1,7 @@
 package pl.coderslab.beans;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +9,7 @@ import pl.coderslab.config.AppConfig;
 import pl.coderslab.dao.BookService;
 import pl.coderslab.entity.Book;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -18,7 +20,7 @@ public class BookController {
     BookService bookService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(@Qualifier("toFile") BookService bookService) {
         this.bookService = bookService;
     }
 
